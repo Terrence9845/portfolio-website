@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Terry Adibe — IT & Cybersecurity Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #080c10;
+    --bg2: #0d1117;
+    --bg3: #111820;
+    --green: #00ff88;
+    --green-dim: #00cc6a;
+    --green-mute: rgba(0,255,136,0.08);
+    --green-border: rgba(0,255,136,0.18);
+    --cyan: #00e5ff;
+    --cyan-dim: rgba(0,229,255,0.12);
+    --text: #c8d6e5;
+    --text-dim: #6b7a8d;
+    --text-bright: #eaf2ff;
+    --mono: 'Share Tech Mono', monospace;
+    --sans: 'Syne', sans-serif;
+    --card-border: 1px solid rgba(0,255,136,0.12);
+    --radius: 4px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* SCANLINE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* GRID PATTERN */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,136,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,136,0.025) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(8,12,16,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--green-border);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-brand {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--green);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-brand span { color: var(--text-dim); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+  }
+
+  nav a {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--green); }
+
+  /* MAIN WRAPPER */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  section { padding: 7rem 0 4rem; }
+
+  /* SECTION LABELS */
+  .section-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .section-tag::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--green);
+  }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 56px;
+  }
+
+  .hero-inner {
+    width: 100%;
+  }
+
+  .hero-status {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--green);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .blink {
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    background: var(--green);
+    animation: blink 1s step-end infinite;
+    vertical-align: middle;
+  }
+
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .hero-name {
+    font-family: var(--sans);
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--text-bright);
+    margin-bottom: 0.4rem;
+  }
+
+  .hero-name .accent { color: var(--green); }
+
+  .hero-title {
+    font-family: var(--mono);
+    font-size: clamp(0.85rem, 2vw, 1.1rem);
+    color: var(--text-dim);
+    margin-bottom: 2rem;
+    letter-spacing: 0.06em;
+  }
+
+  .hero-title .highlight { color: var(--cyan); }
+
+  .hero-bio {
+    max-width: 600px;
+    font-size: 1rem;
+    color: var(--text);
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    border-left: 2px solid var(--green-border);
+    padding-left: 1.25rem;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: var(--radius);
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: var(--green);
+    color: #000;
+    border: 1px solid var(--green);
+    font-weight: 700;
+  }
+
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--green);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--green);
+    border: 1px solid var(--green-border);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--green);
+    background: var(--green-mute);
+  }
+
+  /* STATS ROW */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    margin-top: 4rem;
+    border: 1px solid var(--green-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .stat-item {
+    padding: 1.25rem 1.5rem;
+    background: var(--bg2);
+    text-align: center;
+  }
+
+  .stat-item:not(:last-child) {
+    border-right: 1px solid var(--green-border);
+  }
+
+  .stat-num {
+    font-family: var(--mono);
+    font-size: 1.8rem;
+    color: var(--green);
+    display: block;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .about-text p { margin-bottom: 1rem; color: var(--text); }
+
+  .skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .skill-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--green-border);
+    border-radius: var(--radius);
+    color: var(--green-dim);
+    background: var(--green-mute);
+    letter-spacing: 0.05em;
+  }
+
+  .cert-card {
+    background: var(--bg2);
+    border: var(--card-border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cert-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--green);
+  }
+
+  .cert-title {
+    font-weight: 700;
+    color: var(--text-bright);
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .cert-issuer {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--green-dim);
+  }
+
+  .cert-date {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 0.3rem;
+  }
+
+  .cert-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 0.2rem 0.5rem;
+    background: rgba(0,229,255,0.1);
+    border: 1px solid rgba(0,229,255,0.25);
+    color: var(--cyan);
+    border-radius: 2px;
+    margin-top: 0.5rem;
+    letter-spacing: 0.06em;
+  }
+
+  .in-progress {
+    background: rgba(255,170,0,0.08);
+    border-color: rgba(255,170,0,0.25);
+    color: #ffaa00;
+  }
+
+  /* EXPERIENCE */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--green), transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 3rem;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.45rem;
+    top: 0.45rem;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+  }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .job-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-bright);
+  }
+
+  .job-company {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--green-dim);
+    margin-top: 0.15rem;
+  }
+
+  .job-period {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .job-desc {
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .job-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+  }
+
+  .job-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid var(--green-border);
+    color: var(--text-dim);
+    border-radius: 2px;
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--bg2);
+    border: var(--card-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .project-card:hover {
+    border-color: rgba(0,255,136,0.4);
+    transform: translateY(-2px);
+  }
+
+  .project-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,255,136,0.03) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .project-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 0.75rem;
+  }
+
+  .project-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text-bright);
+    margin-bottom: 0.5rem;
+  }
+
+  .project-desc {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .project-type {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+
+  .type-doc {
+    color: var(--cyan);
+    border-color: rgba(0,229,255,0.25);
+    background: rgba(0,229,255,0.07);
+  }
+
+  .type-code {
+    color: #b084f5;
+    border-color: rgba(176,132,245,0.25);
+    background: rgba(176,132,245,0.07);
+  }
+
+  .type-wip {
+    color: #ffaa00;
+    border-color: rgba(255,170,0,0.25);
+    background: rgba(255,170,0,0.07);
+  }
+
+  .wip-bar {
+    width: 100%;
+    height: 2px;
+    background: rgba(255,170,0,0.15);
+    border-radius: 1px;
+    margin-top: 1rem;
+    overflow: hidden;
+  }
+
+  .wip-fill {
+    height: 100%;
+    background: #ffaa00;
+    animation: loading 2s ease-in-out infinite alternate;
+    width: 40%;
+  }
+
+  @keyframes loading { to { width: 70%; } }
+
+  /* EDUCATION */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .edu-card {
+    background: var(--bg2);
+    border: var(--card-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .edu-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 80px; height: 80px;
+    background: radial-gradient(circle, rgba(0,255,136,0.06), transparent 70%);
+    border-radius: 50%;
+  }
+
+  .edu-degree {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-bright);
+    margin-bottom: 0.25rem;
+  }
+
+  .edu-school {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--green-dim);
+    margin-bottom: 0.25rem;
+  }
+
+  .edu-years {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 0.75rem;
+  }
+
+  .edu-activities {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* CONTACT */
+  #contact {
+    text-align: center;
+  }
+
+  .contact-card {
+    background: var(--bg2);
+    border: var(--card-border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    max-width: 600px;
+    margin: 2rem auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, rgba(0,255,136,0.15), transparent 50%, rgba(0,229,255,0.08));
+    z-index: -1;
+  }
+
+  .contact-tagline {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* SECTION HEADING */
+  .section-h2 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    color: var(--text-bright);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-sub {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    margin-bottom: 3rem;
+    max-width: 500px;
+  }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--green-border);
+    text-align: center;
+    padding: 2rem;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  footer span { color: var(--green); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .about-grid, .edu-grid { grid-template-columns: 1fr; }
+    .stat-item:not(:last-child) { border-right: none; border-bottom: 1px solid var(--green-border); }
+    nav ul { display: none; }
+    .projects-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-inner > * {
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+  .hero-status { animation-delay: 0.1s; }
+  .hero-name { animation-delay: 0.2s; }
+  .hero-title { animation-delay: 0.3s; }
+  .hero-bio { animation-delay: 0.4s; }
+  .hero-ctas { animation-delay: 0.5s; }
+  .stats-row { animation-delay: 0.6s; }
+
+  /* TERMINAL PROMPT */
+  .terminal-line {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 0.4rem;
+  }
+  .terminal-line .prompt { color: var(--green); }
+  .terminal-line .cmd { color: var(--text-bright); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand"><span>~/</span>terry-adibe<span>.portfolio</span></div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-inner">
+      <div class="hero-status"><span class="blink"></span>Available for opportunities in IT & Cybersecurity</div>
+      <h1 class="hero-name">Terry<br><span class="accent">Adibe</span></h1>
+      <p class="hero-title">IT Support &nbsp;/&nbsp; <span class="highlight">Cybersecurity</span> &nbsp;/&nbsp; Networking</p>
+      <p class="hero-bio">
+        Early-career technology professional with hands-on experience in IT support, troubleshooting, and technical problem-solving. Currently building expertise in networking and cybersecurity while completing CompTIA Security+. Graduated with a BSc in Computer Games Development from the University of Westminster.
+      </p>
+      <div class="hero-ctas">
+        <a href="https://www.linkedin.com/in/terry-adibe-31688a187/" target="_blank" class="btn btn-primary">Connect on LinkedIn</a>
+        <a href="#projects" class="btn btn-outline">View Projects</a>
+      </div>
+      <div class="stats-row">
+        <div class="stat-item"><span class="stat-num">4+</span><span class="stat-label">Years Experience</span></div>
+        <div class="stat-item"><span class="stat-num">2</span><span class="stat-label">Certifications</span></div>
+        <div class="stat-item"><span class="stat-num">BSc</span><span class="stat-label">Computer Games Dev</span></div>
+        <div class="stat-item"><span class="stat-num">Sec+</span><span class="stat-label">In Progress</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-tag">About</div>
+    <h2 class="section-h2">Who I Am</h2>
+    <p class="section-sub">A motivated technologist with a problem-solving mindset and a genuine drive to learn.</p>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm an early-career IT professional passionate about how systems, people, and technology intersect in real-world environments. What drives me most is learning quickly, taking on challenges, and continuously improving so I can bring real value to a team.</p>
+        <p>I'm naturally curious, patient when working through problems, and comfortable breaking things down step-by-step to find solutions — whether that's a connectivity issue, a system fault, or a security gap.</p>
+        <p>I thrive in environments where teamwork, feedback, and progress are encouraged. I'm actively building toward roles in IT support, networking, and cybersecurity — and currently studying for CompTIA Security+.</p>
+        <div class="skills-list">
+          <span class="skill-tag">IT Support</span>
+          <span class="skill-tag">Troubleshooting</span>
+          <span class="skill-tag">Networking</span>
+          <span class="skill-tag">Cybersecurity</span>
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">C#</span>
+          <span class="skill-tag">Customer Service</span>
+          <span class="skill-tag">Team Management</span>
+          <span class="skill-tag">Log Analysis</span>
+          <span class="skill-tag">CompTIA Sec+</span>
+        </div>
+      </div>
+      <div>
+        <div class="cert-card">
+          <div class="cert-title">Google IT Support Professional</div>
+          <div class="cert-issuer">Google / Coursera</div>
+          <div class="cert-date">Issued Nov 2025 · Expires Dec 2035</div>
+          <div class="cert-badge">✓ Verified — ID: VP7J0SBFTILF</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-title">ArchViz Design Techniques</div>
+          <div class="cert-issuer">Unreal Engine User Group</div>
+          <div class="cert-date">Issued Mar 2024 · Expires Dec 2035</div>
+          <div class="cert-badge">✓ Verified</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-title">CompTIA Security+</div>
+          <div class="cert-issuer">CompTIA</div>
+          <div class="cert-date">Currently studying — exam upcoming</div>
+          <div class="cert-badge in-progress">⏳ In Progress</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-tag">Experience</div>
+    <h2 class="section-h2">Work History</h2>
+    <p class="section-sub">Customer-focused roles that built communication, resilience, and operational skills.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="job-header">
+          <div>
+            <div class="job-title">Retail Sales Assistant</div>
+            <div class="job-company">IKEA · Part-time</div>
+          </div>
+          <div class="job-period">Sep 2023 – Present<br>Hammersmith, London</div>
+        </div>
+        <p class="job-desc">Helping customers locate and choose products, delivering top-notch customer service, maintaining product displays, handling stock, and managing checkout transactions in a high-volume retail environment.</p>
+        <div class="job-tags">
+          <span class="job-tag">Customer Service</span>
+          <span class="job-tag">Team Management</span>
+          <span class="job-tag">Teamwork</span>
+          <span class="job-tag">Stock Management</span>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="job-header">
+          <div>
+            <div class="job-title">Retail Sales Assistant</div>
+            <div class="job-company">Argos · Part-time</div>
+          </div>
+          <div class="job-period">Sep 2021 – Jul 2023<br>Warlingham, England</div>
+        </div>
+        <p class="job-desc">Provided excellent customer service, trained new employees, and used different software systems to send orders into store. Developed strong communication and operational skills in a fast-paced environment.</p>
+        <div class="job-tags">
+          <span class="job-tag">Customer Service</span>
+          <span class="job-tag">Team Management</span>
+          <span class="job-tag">Training</span>
+          <span class="job-tag">Order Management Software</span>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="job-header">
+          <div>
+            <div class="job-title">Retail Assistant</div>
+            <div class="job-company">Day Lewis Pharmacy · Part-time</div>
+          </div>
+          <div class="job-period">Jun 2018 – Jul 2018<br>South Croydon</div>
+        </div>
+        <p class="job-desc">Provided excellent customer service in a professional manner, handled stock replenishment and organisation, worked under pressure during busy periods, and demonstrated ability to use initiative independently.</p>
+        <div class="job-tags">
+          <span class="job-tag">Sales</span>
+          <span class="job-tag">Teamwork</span>
+          <span class="job-tag">Initiative</span>
+          <span class="job-tag">Customer Service</span>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="job-header">
+          <div>
+            <div class="job-title">Student Volunteer</div>
+            <div class="job-company">Scope · Part-time</div>
+          </div>
+          <div class="job-period">Jun 2017 – Jul 2017<br>Croydon</div>
+        </div>
+        <p class="job-desc">Volunteered with a disability equality charity, developing empathy, communication, and community engagement skills.</p>
+        <div class="job-tags">
+          <span class="job-tag">Volunteering</span>
+          <span class="job-tag">Community</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-tag">Projects & Case Studies</div>
+    <h2 class="section-h2">Technical Work</h2>
+    <p class="section-sub">Real IT troubleshooting case studies documented end-to-end — from diagnosis through to resolution and reflection.</p>
+
+    <style>
+      .case-card {
+        background: var(--bg2);
+        border: var(--card-border);
+        border-radius: var(--radius);
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        transition: border-color 0.2s;
+      }
+      .case-card:hover { border-color: rgba(0,255,136,0.35); }
+      .case-header {
+        padding: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+        cursor: pointer;
+        user-select: none;
+      }
+      .case-header-left { flex: 1; }
+      .case-num {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--text-dim);
+        margin-bottom: 0.4rem;
+      }
+      .case-title {
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: var(--text-bright);
+        margin-bottom: 0.5rem;
+      }
+      .case-meta {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .case-toggle {
+        font-family: var(--mono);
+        font-size: 18px;
+        color: var(--green);
+        transition: transform 0.25s;
+        flex-shrink: 0;
+        margin-top: 4px;
+      }
+      .case-toggle.open { transform: rotate(45deg); }
+      .case-body {
+        display: none;
+        padding: 0 1.5rem 1.5rem;
+        border-top: 1px solid var(--green-border);
+      }
+      .case-body.open { display: block; }
+      .case-section-label {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--green-dim);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin: 1.2rem 0 0.5rem;
+      }
+      .case-text {
+        font-size: 0.9rem;
+        color: var(--text);
+        line-height: 1.75;
+      }
+      .case-steps {
+        list-style: none;
+        counter-reset: steps;
+        margin: 0;
+        padding: 0;
+      }
+      .case-steps li {
+        counter-increment: steps;
+        font-size: 0.9rem;
+        color: var(--text);
+        padding: 0.4rem 0 0.4rem 2rem;
+        position: relative;
+        border-left: 1px solid var(--green-border);
+        margin-left: 0.5rem;
+        padding-left: 1rem;
+        margin-bottom: 0.3rem;
+      }
+      .case-steps li::before {
+        content: counter(steps, decimal-leading-zero);
+        position: absolute;
+        left: -1.6rem;
+        top: 0.45rem;
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--green);
+        background: var(--bg2);
+        padding: 0 2px;
+      }
+      .tools-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 0.5rem;
+      }
+      .tool-pill {
+        font-family: var(--mono);
+        font-size: 11px;
+        padding: 0.25rem 0.6rem;
+        background: rgba(0,229,255,0.07);
+        border: 1px solid rgba(0,229,255,0.2);
+        color: var(--cyan);
+        border-radius: 2px;
+      }
+      .resolution-box {
+        background: rgba(0,255,136,0.05);
+        border: 1px solid rgba(0,255,136,0.15);
+        border-radius: var(--radius);
+        padding: 0.9rem 1rem;
+        margin-top: 0.5rem;
+      }
+      .resolution-box .label {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--green);
+        letter-spacing: 0.1em;
+        margin-bottom: 0.3rem;
+      }
+      .resolution-box p {
+        font-size: 0.9rem;
+        color: var(--text);
+        margin: 0;
+      }
+      .reflection-box {
+        background: rgba(0,229,255,0.04);
+        border-left: 2px solid var(--cyan);
+        padding: 0.75rem 1rem;
+        margin-top: 0.5rem;
+        border-radius: 0 var(--radius) var(--radius) 0;
+        font-size: 0.9rem;
+        color: var(--text-dim);
+        font-style: italic;
+        line-height: 1.65;
+      }
+    </style>
+
+    <!-- CASE 01: OUTLOOK -->
+    <div class="case-card">
+      <div class="case-header" onclick="toggleCase(this)">
+        <div class="case-header-left">
+          <div class="case-num">// Case Study 01</div>
+          <div class="case-title">Outlook Email Not Sending</div>
+          <div class="case-meta">
+            <span class="project-type type-doc">IT Documentation</span>
+            <span class="skill-tag">Outlook</span>
+            <span class="skill-tag">Email Config</span>
+            <span class="skill-tag">Authentication</span>
+          </div>
+        </div>
+        <div class="case-toggle">+</div>
+      </div>
+      <div class="case-body">
+        <div class="case-section-label">Problem</div>
+        <p class="case-text">User unable to send emails in Outlook — messages remained stuck in the Outbox. The user could still receive emails, but outgoing messages consistently failed to send.</p>
+
+        <div class="case-section-label">Key Questions Asked</div>
+        <ul class="case-steps">
+          <li>Are you connected to the internet?</li>
+          <li>Are you able to receive emails? (to isolate sending vs. full service failure)</li>
+          <li>Are there any error messages displayed?</li>
+          <li>When did the issue start? (to identify recent changes)</li>
+          <li>Have you recently changed your email password?</li>
+          <li>Is this affecting other users? (to determine if user-specific or system-wide)</li>
+        </ul>
+
+        <div class="case-section-label">Troubleshooting Steps</div>
+        <ul class="case-steps">
+          <li>Confirmed device was connected to the internet</li>
+          <li>Verified Outlook was not in Offline Mode</li>
+          <li>Checked for stuck emails in the Outbox and attempted to resend or delete them</li>
+          <li>Closed and reopened Outlook to resolve any temporary application issues</li>
+          <li>Checked that email address, password, and server settings were correct</li>
+          <li>Removed and re-added the email account to refresh the configuration</li>
+          <li>Restarted the device to clear any remaining temporary system issues</li>
+        </ul>
+
+        <div class="case-section-label">Tools Used</div>
+        <div class="tools-row">
+          <span class="tool-pill">Microsoft Outlook</span>
+          <span class="tool-pill">Network Settings</span>
+          <span class="tool-pill">Control Panel — Mail Settings</span>
+        </div>
+
+        <div class="case-section-label">Root Cause & Resolution</div>
+        <div class="resolution-box">
+          <div class="label">✓ RESOLVED</div>
+          <p>Issue caused by an incorrect email password, preventing Outlook from authenticating with the server. The correct password was re-entered, allowing Outlook to reconnect and send successfully.</p>
+        </div>
+
+        <div class="case-section-label">Reflection</div>
+        <div class="reflection-box">This case highlights the importance of checking basic configuration issues — such as account credentials — before investigating more complex causes. Many email-related problems stem from simple authentication errors.</div>
+      </div>
+    </div>
+
+    <!-- CASE 02: SLOW COMPUTER -->
+    <div class="case-card">
+      <div class="case-header" onclick="toggleCase(this)">
+        <div class="case-header-left">
+          <div class="case-num">// Case Study 02</div>
+          <div class="case-title">Slow Computer Performance</div>
+          <div class="case-meta">
+            <span class="project-type type-doc">IT Documentation</span>
+            <span class="skill-tag">Windows</span>
+            <span class="skill-tag">Task Manager</span>
+            <span class="skill-tag">Malware Analysis</span>
+          </div>
+        </div>
+        <div class="case-toggle">+</div>
+      </div>
+      <div class="case-body">
+        <div class="case-section-label">Problem</div>
+        <p class="case-text">User reported their computer had become significantly slow during normal use — applications took an extremely long time to open, and the system would freeze or lag when performing basic tasks.</p>
+
+        <div class="case-section-label">Key Questions Asked</div>
+        <ul class="case-steps">
+          <li>When did the issue start? (to identify recent updates, installs, or changes)</li>
+          <li>Are specific applications slow, or the entire system?</li>
+          <li>Have you installed any new software recently?</li>
+          <li>How much storage space is available?</li>
+          <li>Have you noticed any unusual pop-ups or background activity? (to rule out malware)</li>
+          <li>When was the system last restarted?</li>
+        </ul>
+
+        <div class="case-section-label">Troubleshooting Steps</div>
+        <ul class="case-steps">
+          <li>Opened Task Manager — reviewed CPU, memory, and disk usage, identified high-resource processes</li>
+          <li>Closed unnecessary background applications consuming system resources</li>
+          <li>Navigated to Startup tab in Task Manager and disabled non-essential startup programs</li>
+          <li>Checked disk storage and removed unnecessary files to free up space</li>
+          <li>Performed a full system scan using Windows Defender to rule out malware</li>
+          <li>Restarted the system to clear temporary processes and refresh performance</li>
+          <li>Checked for pending OS and driver updates to eliminate outdated software as a cause</li>
+        </ul>
+
+        <div class="case-section-label">Tools Used</div>
+        <div class="tools-row">
+          <span class="tool-pill">Task Manager</span>
+          <span class="tool-pill">Startup Manager</span>
+          <span class="tool-pill">Disk Cleanup</span>
+          <span class="tool-pill">Windows Defender</span>
+          <span class="tool-pill">Windows Update</span>
+        </div>
+
+        <div class="case-section-label">Root Cause & Resolution</div>
+        <div class="resolution-box">
+          <div class="label">✓ RESOLVED</div>
+          <p>Multiple background applications were consuming high CPU and memory usage, combined with several unnecessary startup programs. Unnecessary apps were closed, startup programs disabled, and disk space cleared.</p>
+        </div>
+
+        <div class="case-section-label">Reflection</div>
+        <div class="reflection-box">This case highlights the importance of monitoring system resources and managing startup applications. Many performance issues are caused by software and background processes rather than hardware failure. Malware scanning is a key step — malicious software can disguise itself as high resource usage.</div>
+      </div>
+    </div>
+
+    <!-- CASE 03: PRINTER -->
+    <div class="case-card">
+      <div class="case-header" onclick="toggleCase(this)">
+        <div class="case-header-left">
+          <div class="case-num">// Case Study 03</div>
+          <div class="case-title">Printer Not Printing</div>
+          <div class="case-meta">
+            <span class="project-type type-doc">IT Documentation</span>
+            <span class="skill-tag">Print Spooler</span>
+            <span class="skill-tag">Device Manager</span>
+            <span class="skill-tag">Driver Management</span>
+          </div>
+        </div>
+        <div class="case-toggle">+</div>
+      </div>
+      <div class="case-body">
+        <div class="case-section-label">Problem</div>
+        <p class="case-text">A user reported their printer appeared connected but documents were not printing. Print jobs remained in the queue without completing. Some colleagues were unaffected, while others shared the same issue — suggesting a mixed device/network cause.</p>
+
+        <div class="case-section-label">Key Questions Asked</div>
+        <ul class="case-steps">
+          <li>Is the printer powered on? (confirm basic hardware state)</li>
+          <li>Are there any error messages on the printer or computer?</li>
+          <li>Are other users able to print successfully?</li>
+          <li>Is the printer connected via USB or network? (to identify physical vs. network issue)</li>
+          <li>When did the issue start? (to identify recent configuration changes or updates)</li>
+        </ul>
+
+        <div class="case-section-label">Troubleshooting Steps</div>
+        <ul class="case-steps">
+          <li>Checked printer status — confirmed powered on, no paper jams, no empty ink</li>
+          <li>Checked print queue — cancelled all pending print jobs and restarted the printer</li>
+          <li>Restarted the printer to clear errors between the device and computer</li>
+          <li>Opened Windows Services, located the Print Spooler service, and restarted it</li>
+          <li>Confirmed the correct printer was set as the default printer</li>
+          <li>Updated and reinstalled printer drivers via Device Manager</li>
+        </ul>
+
+        <div class="case-section-label">Tools Used</div>
+        <div class="tools-row">
+          <span class="tool-pill">Windows Printer Settings</span>
+          <span class="tool-pill">Print Queue Manager</span>
+          <span class="tool-pill">Windows Services</span>
+          <span class="tool-pill">Device Manager</span>
+        </div>
+
+        <div class="case-section-label">Root Cause & Resolution</div>
+        <div class="resolution-box">
+          <div class="label">✓ RESOLVED</div>
+          <p>Multiple stuck print jobs had blocked the print queue. Clearing the queue, restarting the Print Spooler service, and reinstalling drivers restored full printing functionality.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 04: WIFI -->
+    <div class="case-card">
+      <div class="case-header" onclick="toggleCase(this)">
+        <div class="case-header-left">
+          <div class="case-num">// Case Study 04</div>
+          <div class="case-title">User Cannot Connect to Wi-Fi</div>
+          <div class="case-meta">
+            <span class="project-type type-doc">IT Documentation</span>
+            <span class="skill-tag">Networking</span>
+            <span class="skill-tag">ipconfig</span>
+            <span class="skill-tag">Network Settings</span>
+          </div>
+        </div>
+        <div class="case-toggle">+</div>
+      </div>
+      <div class="case-body">
+        <div class="case-section-label">Problem</div>
+        <p class="case-text">A user reported their laptop was unable to connect to the office Wi-Fi network. Other colleagues were connected without issues, suggesting the problem was device-specific rather than a network-wide fault.</p>
+
+        <div class="case-section-label">Key Questions Asked</div>
+        <ul class="case-steps">
+          <li>Are other devices able to connect? (to confirm device vs. network issue)</li>
+          <li>Are you receiving any specific error messages?</li>
+          <li>When did the issue start?</li>
+          <li>Have you recently changed your password? (outdated credentials are a common cause)</li>
+          <li>Are you working remotely or in the office? (signal strength and environment)</li>
+          <li>Is Wi-Fi enabled in your device settings?</li>
+        </ul>
+
+        <div class="case-section-label">Troubleshooting Steps</div>
+        <ul class="case-steps">
+          <li>Confirmed Wi-Fi was enabled and Airplane Mode was disabled — a commonly overlooked issue</li>
+          <li>Restarted the laptop to resolve any temporary network or software glitches</li>
+          <li>Opened Network Settings, selected the Wi-Fi network, clicked Forget, then reconnected with the correct password</li>
+          <li>Used Command Prompt (ipconfig) to check IP configuration and confirm address assignment</li>
+          <li>Checked Device Manager for any driver issues with the wireless adapter</li>
+        </ul>
+
+        <div class="case-section-label">Tools Used</div>
+        <div class="tools-row">
+          <span class="tool-pill">Windows Network Settings</span>
+          <span class="tool-pill">Command Prompt (ipconfig)</span>
+          <span class="tool-pill">Device Manager</span>
+        </div>
+
+        <div class="case-section-label">Root Cause & Resolution</div>
+        <div class="resolution-box">
+          <div class="label">✓ RESOLVED</div>
+          <p>The device was storing an outdated Wi-Fi password after network credentials had been changed. Forgetting the network and reconnecting with the updated password resolved the issue immediately.</p>
+        </div>
+
+        <div class="case-section-label">Reflection</div>
+        <div class="reflection-box">This case highlights the importance of gathering information before troubleshooting. Many connectivity issues are caused by simple configuration problems rather than hardware failures — and asking the right questions upfront saves significant diagnostic time.</div>
+      </div>
+    </div>
+
+    <!-- CASE 05: LOG ANALYSER -->
+    <div class="case-card">
+      <div class="case-header" onclick="toggleCase(this)">
+        <div class="case-header-left">
+          <div class="case-num">// Project 05</div>
+          <div class="case-title">Log Analyser Tool — C++ & C#</div>
+          <div class="case-meta">
+            <span class="project-type type-wip">In Development</span>
+            <span class="skill-tag">C++</span>
+            <span class="skill-tag">C#</span>
+            <span class="skill-tag">Cybersecurity</span>
+          </div>
+        </div>
+        <div class="case-toggle">+</div>
+      </div>
+      <div class="case-body">
+        <div class="case-section-label">Project Overview</div>
+        <p class="case-text">An in-development tool to parse, filter, and flag anomalies in system and security log files. Designed to support cybersecurity monitoring workflows by surfacing patterns relevant to incident detection and response.</p>
+
+        <div class="case-section-label">Goals</div>
+        <ul class="case-steps">
+          <li>Parse raw system/security logs and extract key event data</li>
+          <li>Filter events by type, severity, and timestamp</li>
+          <li>Flag suspicious patterns such as repeated failed logins or unusual process activity</li>
+          <li>Output a readable summary report for further investigation</li>
+        </ul>
+
+        <div class="case-section-label">Technologies</div>
+        <div class="tools-row">
+          <span class="tool-pill">C++</span>
+          <span class="tool-pill">C#</span>
+          <span class="tool-pill">File I/O</span>
+          <span class="tool-pill">String Parsing</span>
+          <span class="tool-pill">Windows Event Logs</span>
+        </div>
+
+        <div class="case-section-label">Status</div>
+        <div class="resolution-box" style="background: rgba(255,170,0,0.05); border-color: rgba(255,170,0,0.2);">
+          <div class="label" style="color: #ffaa00;">⏳ IN PROGRESS</div>
+          <p>Project is actively in development. Core parsing logic underway.</p>
+        </div>
+        <div class="wip-bar" style="margin-top: 1rem;"><div class="wip-fill"></div></div>
+      </div>
+    </div>
+
+    <script>
+      function toggleCase(header) {
+        const body = header.nextElementSibling;
+        const toggle = header.querySelector('.case-toggle');
+        const isOpen = body.classList.contains('open');
+        body.classList.toggle('open', !isOpen);
+        toggle.classList.toggle('open', !isOpen);
+      }
+    </script>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-tag">Education</div>
+    <h2 class="section-h2">Academic Background</h2>
+    <p class="section-sub">Formal education underpinning technical and programming skills.</p>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-degree">BSc (Hons) Computer Games Development</div>
+        <div class="edu-school">University of Westminster</div>
+        <div class="edu-years">Sep 2021 – May 2025</div>
+        <div class="edu-activities">Subjects included computer games programming, C++, C#, and development techniques. <br><br>Societies: Volleyball Society · Basketball Society</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">A Levels</div>
+        <div class="edu-school">Southfields Academy</div>
+        <div class="edu-years">Sep 2018 – Aug 2020</div>
+        <div class="edu-activities">Grades: C, Merit, B, Merit<br><br>Societies: Latin Society · Football Club</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-tag" style="justify-content: center;">Contact</div>
+    <h2 class="section-h2">Let's Connect</h2>
+    <div class="contact-card">
+      <div class="terminal-line"><span class="prompt">→ </span><span class="cmd">open opportunity.txt</span></div>
+      <p class="contact-tagline">
+        If you're looking for someone with potential, curiosity, and a genuine drive to improve — I'd love to hear from you. Open to IT support, networking, and cybersecurity roles where I can learn, contribute, and grow.
+      </p>
+      <div class="contact-links">
+        <a href="https://www.linkedin.com/in/terry-adibe-31688a187/" target="_blank" class="btn btn-primary">LinkedIn Profile</a>
+        <a href="/cdn-cgi/l/email-protection#91" class="btn btn-outline">Send Email</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>Terry Adibe</span> · IT Support & Cybersecurity · London, UK · Built 2025
+</fo
